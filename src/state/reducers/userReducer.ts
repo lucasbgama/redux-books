@@ -20,10 +20,11 @@ const reducer = (
 ): UserState => {
   switch (action.type) {
     case ActionTypes.FETCH:
-      return { ...state, isFetching: true };
+      return { ...state, error: false, isFetching: true };
     case ActionTypes.ERROR:
       return { ...state, error: true, isFetching: false };
     case ActionTypes.LOGIN:
+      console.log(action.payload);
       return { ...state, isFetching: false, error: false, ...action.payload };
     case ActionTypes.LOGOUT:
       return { isFetching: false, error: false };

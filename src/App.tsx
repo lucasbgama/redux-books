@@ -1,25 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { State } from "./state";
+import { useSelector } from "react-redux";
+import { Route as ReactRoute, Routes, Navigate } from "react-router-dom";
+import { Route } from "./routes";
+import { FC } from "react";
+import { Login } from "./pages/Login";
+import { Backdrop, CircularProgress } from "@mui/material";
+import { Home } from "./pages/Home";
+
+const PrivateRoute: FC = ({ children }) => {
+  const isAuthenticated = !!useSelector((state: State) => state.user).token
+    ?.accessToken;
+  if (isAuthenticated && children) {
+    return <>{children}</>;
+  }
+  return <Navigate to={Route.LOGIN} />;
+};
 
 function App() {
+  const userStore = useSelector((state: State) => state.user);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Routes>
+        <ReactRoute
+          path={Route.HOME}
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+        <ReactRoute path={Route.LOGIN} element={<Login />} />
+      </Routes>
+      <Backdrop
+        open={userStore.isFetching}
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </>
   );
 }
 

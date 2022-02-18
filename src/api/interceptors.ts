@@ -21,7 +21,6 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     const request = error.config;
-    console.log(JSON.stringify(request));
     if (error.response.status === 401 && request.url === "/token/refresh/") {
       return Promise.reject(error);
     }

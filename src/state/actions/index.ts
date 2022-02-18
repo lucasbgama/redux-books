@@ -31,6 +31,15 @@ interface GetBooksAction {
   payload: { books: Book[]; totalPages: number };
 }
 
+interface AddBookDetailAction {
+  type: ActionTypes.ADD_BOOK_DETAILS;
+  payload: Book;
+}
+
+interface RemoveBookDetailAction {
+  type: ActionTypes.RM_BOOK_DETAILS;
+}
+
 interface SetPageAction {
   type: ActionTypes.SET_PAGE;
   payload: number;
@@ -44,4 +53,6 @@ export type Action =
   | ErrorAction
   | RefreshTokenAction
   | GetBooksAction
-  | SetPageAction;
+  | SetPageAction
+  | AddBookDetailAction
+  | RemoveBookDetailAction;

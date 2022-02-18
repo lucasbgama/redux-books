@@ -35,3 +35,17 @@ export const GetBooks = (page: number) => {
     dispatch({ type: ActionTypes.ADD_BOOKS, payload: { books, totalPages } });
   };
 };
+
+export const GetBookDetail = (id: string) => {
+  return async (dispatch: AppDispatch) => {
+    const response = await axiosInstance.get(`/books/${id}`);
+    const book: Book = response.data;
+    dispatch({ type: ActionTypes.ADD_BOOK_DETAILS, payload: book });
+  };
+};
+
+export const RmBookDetail = () => {
+  return (dispatch: AppDispatch) => {
+    dispatch({ type: ActionTypes.RM_BOOK_DETAILS });
+  };
+};

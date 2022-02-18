@@ -6,6 +6,7 @@ interface BooksState {
   books: Book[];
   page: number;
   totalPages: number;
+  bookDetails?: Book;
 }
 
 const initialState: BooksState = {
@@ -23,6 +24,10 @@ const reducer = (
       return { ...state, ...action.payload };
     case ActionTypes.SET_PAGE:
       return { ...state, page: action.payload };
+    case ActionTypes.ADD_BOOK_DETAILS:
+      return { ...state, bookDetails: action.payload };
+    case ActionTypes.RM_BOOK_DETAILS:
+      return { ...state, bookDetails: undefined };
     default:
       return state;
   }

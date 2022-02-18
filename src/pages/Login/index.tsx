@@ -1,5 +1,5 @@
-import { Grid, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Grid, Theme } from "@mui/material";
+import { Box, SxProps } from "@mui/system";
 import {
   ChangeEvent,
   FC,
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import { bindActionCreators } from "redux";
 import { Button } from "../../components/Button";
 import { TextField } from "../../components/TextField";
+import { Typography } from "../../components/Typography";
 import { Route } from "../../routes";
 import { actionCreators, State } from "../../state";
 
@@ -25,6 +26,12 @@ const initialLoginState: LoginInput = {
   email: "",
   password: "",
 };
+
+const formSx: SxProps<Theme> = (theme) => ({
+  width: "fit-content",
+  [theme.breakpoints.up("xs")]: { margin: "0 auto" },
+  [theme.breakpoints.up("md")]: { marginLeft: "115px" },
+});
 
 export const Login: FC = () => {
   const dispatch = useDispatch();
@@ -82,24 +89,12 @@ export const Login: FC = () => {
       }}
     >
       <form onSubmit={onSubmit} style={{ width: "100%" }}>
-        <Grid
-          container
-          direction="column"
-          sx={(theme) => ({
-            width: "fit-content",
-            [theme.breakpoints.up("xs")]: { margin: "0 auto" },
-            [theme.breakpoints.up("md")]: { marginLeft: "115px" },
-          })}
-          gap={2}
-        >
+        <Grid container direction="column" sx={formSx} gap={2}>
           <Grid item display="flex" mb={4}>
-            <img src="Logo.png" alt="ioasys logo" />
+            <img src="WhiteLogo.svg" alt="ioasys logo" />
             <Typography
-              fontSize={28}
-              fontWeight={300}
               color="white"
               lineHeight="40px"
-              fontFamily="Heebo"
               display="inline"
               marginLeft="16.6px"
             >

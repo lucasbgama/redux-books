@@ -16,18 +16,16 @@ axiosInstance.interceptors.request.use((config) => {
 
 axiosInstance.interceptors.response.use(
   (response) => {
+    store.dispatch({ type: ActionTypes.FETCHED });
     return response;
   },
   async (error) => {
     const request = error.config;
-    if (
-      error.response.status === 401 &&
-      request.url === `${API_URL}/token/refresh/`
-    ) {
+    console.log(JSON.stringify(request));
+    if (error.response.status === 401 && request.url === "/token/refresh/") {
       return Promise.reject(error);
     }
     if (
-      error.response.data.code === "token_not_valid" &&
       error.response.status === 401 &&
       error.response.statusText === "Unauthorized"
     ) {
@@ -42,16 +40,17 @@ axiosInstance.interceptors.response.use(
           store.dispatch({
             type: ActionTypes.REFRESH_TOKEN,
             payload: {
-              accessToken: response.headers["Authorization"],
+              accessToken: response.headers["authorization"],
               refreshToken: response.headers["refresh-token"],
             },
           });
           request.headers[
-            "Authorization"
-          ] = `Bearer ${response.headers["Authorization"]}`;
+            "authorization"
+          ] = `Bearer ${response.headers["authorization"]}`;
           return await axiosInstance(request);
         } catch (_err) {
           store.dispatch({ type: ActionTypes.ERROR });
+          store.dispatch({ type: ActionTypes.LOGOUT });
         }
       } else {
         store.dispatch({ type: ActionTypes.LOGOUT });

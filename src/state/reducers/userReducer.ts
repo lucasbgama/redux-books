@@ -28,6 +28,8 @@ const reducer = (
   switch (action.type) {
     case ActionTypes.FETCH:
       return { ...state, error: false, isFetching: true };
+    case ActionTypes.FETCHED:
+      return { ...state, isFetching: false };
     case ActionTypes.ERROR:
       return { ...state, error: true, isFetching: false };
     case ActionTypes.LOGIN:

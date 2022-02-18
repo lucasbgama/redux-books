@@ -1,11 +1,10 @@
 import { AppDispatch } from "..";
-import { Token, User } from "../../api";
+import { Book, Token, User } from "../../api";
 import { axiosInstance } from "../../api/interceptors";
 import { ActionTypes } from "../action-types";
 
 export const Login = (email: string, password: string) => {
   return async (dispatch: AppDispatch) => {
-    dispatch({ type: ActionTypes.FETCH });
     const response = await axiosInstance.post("/auth/sign-in", {
       email,
       password,
@@ -22,5 +21,17 @@ export const Login = (email: string, password: string) => {
 export const Logout = () => {
   return (dispatch: AppDispatch) => {
     dispatch({ type: ActionTypes.LOGOUT });
+  };
+};
+
+export const GetBooks = (page: number) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch({ type: ActionTypes.SET_PAGE, payload: page });
+    const response = await axiosInstance.get("/books", {
+      params: { page, amount: 12 },
+    });
+    const books: Book[] = response.data.data;
+    const totalPages: number = Math.ceil(response.data.totalPages);
+    dispatch({ type: ActionTypes.ADD_BOOKS, payload: { books, totalPages } });
   };
 };

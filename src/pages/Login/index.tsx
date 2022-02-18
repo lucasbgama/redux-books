@@ -74,13 +74,24 @@ export const Login: FC = () => {
         minWidth: "100vw",
         minHeight: "100vh",
         backgroundRepeat: "no-repeat",
+        backgroundPosition: "40%",
+        backgroundAttachment: "fixed",
         backgroundSize: "cover",
         display: "flex",
         alignItems: "center",
       }}
     >
-      <form onSubmit={onSubmit}>
-        <Grid container direction="column" marginLeft="115px" gap={2}>
+      <form onSubmit={onSubmit} style={{ width: "100%" }}>
+        <Grid
+          container
+          direction="column"
+          sx={(theme) => ({
+            width: "fit-content",
+            [theme.breakpoints.up("xs")]: { margin: "0 auto" },
+            [theme.breakpoints.up("md")]: { marginLeft: "115px" },
+          })}
+          gap={2}
+        >
           <Grid item display="flex" mb={4}>
             <img src="Logo.png" alt="ioasys logo" />
             <Typography
@@ -96,7 +107,7 @@ export const Login: FC = () => {
             </Typography>
           </Grid>
 
-          <Grid item width={368}>
+          <Grid item maxWidth={368}>
             <TextField
               fullWidth
               name="email"
@@ -108,7 +119,7 @@ export const Login: FC = () => {
               label="Email"
             />
           </Grid>
-          <Grid item width={368}>
+          <Grid item maxWidth={368}>
             <TextField
               fullWidth
               name="password"

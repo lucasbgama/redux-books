@@ -2,6 +2,7 @@ import { Token, User } from "../../api";
 import { ActionTypes } from "../action-types";
 import { Action } from "../actions";
 
+const tokenStorageKey = "token-ioasys";
 interface UserState {
   user?: User;
   token?: Token;
@@ -9,9 +10,15 @@ interface UserState {
   error: boolean;
 }
 
+const localStorageData = localStorage.getItem(tokenStorageKey);
+const userFromStorage: { user?: User; token?: Token } = localStorageData
+  ? JSON.parse(localStorageData)
+  : {};
+
 const initialState: UserState = {
   isFetching: false,
   error: false,
+  ...userFromStorage,
 };
 
 const reducer = (
@@ -24,9 +31,10 @@ const reducer = (
     case ActionTypes.ERROR:
       return { ...state, error: true, isFetching: false };
     case ActionTypes.LOGIN:
-      console.log(action.payload);
+      localStorage.setItem(tokenStorageKey, JSON.stringify(action.payload));
       return { ...state, isFetching: false, error: false, ...action.payload };
     case ActionTypes.LOGOUT:
+      localStorage.removeItem(tokenStorageKey);
       return { isFetching: false, error: false };
     case ActionTypes.REFRESH_TOKEN:
       return { ...state, error: false, isFetching: false, ...action.payload };

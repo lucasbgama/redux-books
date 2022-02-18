@@ -30,7 +30,7 @@ export const TextField = styled((props: TextFieldProps) => (
     "&:hover": {
       backgroundColor: "#00000028",
     },
-    "&.Mui-focused": {
+    "& .Mui-focused": {
       backgroundColor: "#00000028",
       boxShadow: `${alpha("#B22E6F", 0.25)} 0 0 0 2px`,
       borderColor: "#B22E6F",
